@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification</title>
+</head>
+<body>
+    Username: <input type="text" id="username" \>
+    <br>
+    <button id="button">Click</button>
+
+    <br>
+    <div id="log"></div>
+    <script>
+        const notificationSocket=new WebSocket(`ws://${window.location.host}/ws/notification-server/`);
+        notificationSocket.onmessage=function(e){
+            let data=JSON.parse(e.data)
+            console.log(data);
+            document.querySelector('#log').insertAdjacentHTML('beforeend',`<div>${data.message} is live!</div>`);
+        };
+
+        notificationSocket.onclose=function(e){
+            console.log('Closed connection',e);
+        };
+
+        document.querySelector('#button').addEventListener('click',function(){
+            let username=document.querySelector('#username').value;
+            notificationSocket.send(JSON.stringify({
+                'message':username
+            }));
+        });
+    </script>
+</body>
+</html>
