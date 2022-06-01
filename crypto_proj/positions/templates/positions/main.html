@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Main Page
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Logo</th>
+            <th scope="col">Name</th>
+            <th scope="col">Rank</th>
+            <th scope="col">Market Cap</th>
+            <th scope="col">Price</th>
+
+
+        </tr>
+    </thead>
+
+    <tbody id="tbody">
+        
+    </tbody>
+</table>
+{% endblock content%}
+
+{% block scripts %}
+
+<script>
+    let socket=new WebSocket("ws://"+window.location.host+"/ws/positions/");
+    socket.onmessage=async function(e){
+        let data= await JSON.parse(e.data).data;
+        console.log(data);
+
+        document.querySelector('#tbody').innerHTML='';
+        if(data.length>0){
+            for(let i=0;i<data.length;i++){
+                let tr=document.createElement('tr');
+                
+                tr.innerHTML=`<td><img src="${data[i].image}" alt="${data[i].name}" width="50" height="50"></td>
+                <td class="align-middle">${data[i].name}</td>
+                <td class="align-middle">${data[i].market_cap_rank}</td>
+                <td class="align-middle">${data[i].market_cap}</td>
+                <td class="align-middle">${data[i].current_price}</td>
+                `;
+                document.querySelector('#tbody').appendChild(tr);
+            }
+        }else{
+            let tr=document.createElement('tr');
+            tr.innerHTML=`
+            <td colspan="5">No data wululu</td>
+            `;
+            document.querySelector('#tbody').appendChild(tr);
+        }
+        
+    }
+</script>
+{% endblock %}
