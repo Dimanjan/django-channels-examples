@@ -1,0 +1,21 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+<script src="https://raw.githubusercontent.com/chartjs/Chart.js/master/src/plugins/plugin.filler/index.js"></script>
+    <title>Real Time Graph APP</title>
+</head>
+<body>
+    <canvas id="myChart" width="400" height="200">
+                    
+    </canvas>
+
+    <script src="{% static 'main.js' %}"></script>
+</body>
+</html>
